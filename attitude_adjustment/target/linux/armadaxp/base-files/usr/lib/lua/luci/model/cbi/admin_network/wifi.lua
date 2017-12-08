@@ -9,7 +9,7 @@ You may obtain a copy of the License at
 
 	http://www.apache.org/licenses/LICENSE-2.0
 
-$Id: wifi.lua 9558M 2013-12-12 16:27:16Z (local) $
+$Id$
 ]]--
 
 local wa = require "luci.tools.webadmin"
@@ -274,6 +274,7 @@ if hwtype == "mac80211" then
 	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
 end
 
+
 ------------------- Madwifi Device ------------------
 
 if hwtype == "atheros" then
@@ -342,21 +343,6 @@ end
 ------------------- Marvell Device ------------------
 
 if hwtype == "marvell" then
---	tp = s:taboption("general",
---		(#tx_power_list > 0) and ListValue or Value,
---		"txpower", translate("Transmit Power"), "dBm")
-
---	tp.rmempty = true
---	tp.default = tx_power_cur
-
---	function tp.cfgvalue(...)
---		return txpower_current(Value.cfgvalue(...), tx_power_list)
---	end
-
---	for _, p in ipairs(tx_power_list) do
---		tp:value(p.driver_dbm, "%i dBm (%i mW)"
---			%{ p.display_dbm, p.display_mw })
---	end
 
 	mode = s:taboption("advanced", ListValue, "hwmode", translate("Mode"))
     mode:value("11b", "802.11b")
@@ -370,40 +356,6 @@ if hwtype == "marvell" then
     mode:value("11bgnac", "802.11b/g/n/ac")
     mode:value("11anac", "802.11a/n/ac")
         
---	s:taboption("advanced", Flag, "diversity", translate("Diversity")).rmempty = false
-
---	if not nsantenna then
---		ant1 = s:taboption("advanced", ListValue, "txantenna", translate("Transmitter Antenna"))
---		ant1.widget = "radio"
---		ant1.orientation = "horizontal"
---		ant1:depends("diversity", "")
---		ant1:value("0", translate("auto"))
---		ant1:value("1", translate("Antenna 1"))
---		ant1:value("2", translate("Antenna 2"))
-
---		ant2 = s:taboption("advanced", ListValue, "rxantenna", translate("Receiver Antenna"))
---		ant2.widget = "radio"
---		ant2.orientation = "horizontal"
---		ant2:depends("diversity", "")
---		ant2:value("0", translate("auto"))
---		ant2:value("1", translate("Antenna 1"))
---		ant2:value("2", translate("Antenna 2"))
-
-	--else -- NanoFoo
-		--local ant = s:taboption("advanced", ListValue, "antenna", translate("Transmitter Antenna"))
-		--ant:value("auto")
-		--ant:value("vertical")
-		--ant:value("horizontal")
-		--ant:value("external")
-	--end
-
---	s:taboption("advanced", Value, "distance", translate("Distance Optimization"),
---		translate("Distance to farthest network member in meters."))
---	s:taboption("advanced", Value, "regdomain", translate("Regulatory Domain"))
---	s:taboption("advanced", Value, "country", translate("Country Code"))
---	s:taboption("advanced", Flag, "outdoor", translate("Outdoor Channels"))
-
-	--s:option(Flag, "nosbeacon", translate("Disable HW-Beacon timer"))
 end
 
 ------------------- Broadcom Device ------------------
@@ -916,17 +868,17 @@ if hwtype == "atheros" or hwtype == "mac80211" or hwtype == "prism2" or hwtype =
 			encr:value("wpa2", "WPA2-EAP", {mode="ap"}, {mode="sta"}, {mode="ap-wds"}, {mode="sta-wds"})
 		end
 	elseif hostapd and not supplicant then
-		encr:value("psk", "WPA-PSK", {mode="ap"}, {mode="ap-wds"})
+		--encr:value("psk", "WPA-PSK", {mode="ap"}, {mode="ap-wds"})
 		encr:value("psk2", "WPA2-PSK", {mode="ap"}, {mode="ap-wds"})
-		encr:value("psk-mixed", "WPA-PSK/WPA2-PSK Mixed Mode", {mode="ap"}, {mode="ap-wds"})
+		--encr:value("psk-mixed", "WPA-PSK/WPA2-PSK Mixed Mode", {mode="ap"}, {mode="ap-wds"})
 		if has_ap_eap then
-			encr:value("wpa", "WPA-EAP", {mode="ap"}, {mode="ap-wds"})
+			--encr:value("wpa", "WPA-EAP", {mode="ap"}, {mode="ap-wds"})
 			encr:value("wpa2", "WPA2-EAP", {mode="ap"}, {mode="ap-wds"})
 		end
-		encr.description = translate(
-			"WPA-Encryption requires wpa_supplicant (for client mode) or hostapd (for AP " ..
-			"and ad-hoc mode) to be installed."
-		)
+		--encr.description = translate(
+		--	"WPA-Encryption requires wpa_supplicant (for client mode) or hostapd (for AP " ..
+		--	"and ad-hoc mode) to be installed."
+		--)
 	elseif not hostapd and supplicant then
 		encr:value("psk", "WPA-PSK", {mode="sta"}, {mode="sta-wds"})
 		encr:value("psk2", "WPA2-PSK", {mode="sta"}, {mode="sta-wds"})
